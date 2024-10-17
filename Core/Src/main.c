@@ -57,6 +57,13 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 char *str="Hello\n";
+uint8_t data[10]={0};
+uint16_t count =0 ;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	// Do something
+	count++;
+}
 /* USER CODE END 0 */
 
 /**
@@ -99,7 +106,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		HAL_UART_Transmit(&huart1,(uint8_t *)str,strlen(str),100);
+		// HAL_UART_Transmit_IT(&huart1,(uint8_t *)str,strlen(str));
+		HAL_UART_Receive_IT(&huart1,data,1);
+		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+		HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
